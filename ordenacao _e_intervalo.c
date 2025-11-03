@@ -34,7 +34,7 @@ int main(){
 void ler(int n, int *vetor){
     int i;
     for(i = 0; i < n; i++){
-        printf("Digite o %dº numero: \n", i + 1);
+        printf("Digite o %d numero: \n", i + 1);
         scanf("%d", &vetor[i]);
     }
 }
