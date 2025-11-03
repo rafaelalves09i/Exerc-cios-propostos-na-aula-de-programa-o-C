@@ -3,6 +3,8 @@
 
 void ler(int n, int *vetor);
 void ordenacao(int n, int *vetor);
+int buscar_primeiro(int *vetor, int n, int numero);
+int buscar_ultimo(int *vetor, int n, int numero);
 void buscar_intervalo(int *vetor, int n);
 
 int main(){
@@ -28,14 +30,16 @@ int main(){
     return 0;
 }
 
+// Aqui o programa pede os números ao usuário e eles irão preencher o vetor de números.
 void ler(int n, int *vetor){
     int i;
     for(i = 0; i < n; i++){
-        printf("Digite o %d numero: \n", i + 1);
+        printf("Digite o %dº numero: \n", i + 1);
         scanf("%d", &vetor[i]);
     }
 }
 
+// Aqui o programa faz a ordenação dos números dois a dois.
 void ordenacao(int n, int *vetor){
     int temp, i, j;
 
@@ -57,26 +61,50 @@ void ordenacao(int n, int *vetor){
     printf("\n");
 
 }
+// Busca binária para encontrar a primeira ocorrência
+int buscar_primeiro(int *vetor, int n, int numero) {
+    int inicio = 0, fim = n - 1, meio, resultado = -1;
+    while (inicio <= fim) {
+        meio = (inicio + fim) / 2;
+        if (vetor[meio] == numero) {
+            resultado = meio;
+            fim = meio - 1; // continua procurando à esquerda
+        } else if (vetor[meio] < numero) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+    return resultado;
+}
 
+// Busca binária para encontrar a última ocorrência
+int buscar_ultimo(int *vetor, int n, int numero) {
+    int inicio = 0, fim = n - 1, meio, resultado = -1;
+    while (inicio <= fim) {
+        meio = (inicio + fim) / 2;
+        if (vetor[meio] == numero) {
+            resultado = meio;
+            inicio = meio + 1; // continua procurando à direita
+        } else if (vetor[meio] < numero) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+    return resultado;
+}
+// Aqui o programa informa o intervalo ao usuário.
 void buscar_intervalo(int *vetor, int n){
     int numero;
-    int primeiro = -1, ultimo = -1;
+
     while(1){
         printf("Digite o numero que voce quer ver qual o intervalo: \n");
         scanf("%d", &numero);
 
-        // Aqui o programa verifica qual o intervalo e se o número está no vetor dos numeros.
-        for(int i = 0; i < n; i++){
-            if(vetor[i] == numero){
-                if(primeiro == -1){
-                    primeiro = i; // salva o primeiro
-                }
-                ultimo = i; // Após encontrar o primeiro ele fica rodando até encontrar o último.
+        int primeiro = buscar_primeiro(vetor, n, numero);
+        int ultimo = buscar_ultimo(vetor, n, numero);
 
-            }
-
-
-        }
         if(primeiro != -1){
             printf("O intervalo eh de %d ate %d.\n", primeiro, ultimo);
             break;
